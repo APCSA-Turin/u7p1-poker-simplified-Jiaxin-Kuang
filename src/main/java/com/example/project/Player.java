@@ -16,11 +16,11 @@ public class Player{
     public ArrayList<Card> getAllCards(){return allCards;}
 
     public void addCard(Card c){
-        
+        hand.add(c);
     }
 
-    public String playHand(ArrayList<Card> communityCards){      
-        return "Nothing";
+    public String playHand(ArrayList<Card> communityCards){ 
+        return "Nothing"; 
     }
 
     public void sortAllCards(){} 
@@ -32,14 +32,9 @@ public class Player{
     public ArrayList<Integer> findSuitFrequency(){
         return new ArrayList<>(); 
     }
-
    
     @Override
     public String toString(){
         return hand.toString();
     }
-
-
-
-
 }
