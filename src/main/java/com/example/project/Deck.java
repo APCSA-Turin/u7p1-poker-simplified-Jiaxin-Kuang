@@ -30,8 +30,4 @@ public class Deck{
     public  boolean isEmpty(){
         return cards.isEmpty();
     }
-
-   
-
-
 }
