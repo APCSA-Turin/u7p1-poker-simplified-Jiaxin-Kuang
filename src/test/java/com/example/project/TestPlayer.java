@@ -318,7 +318,7 @@ public class TestPlayer {
         
         assertEquals("Nothing", handResult);
     }
-
+    
 
     @Test
     public void testToString() {

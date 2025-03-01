@@ -27,13 +27,18 @@ public class Player{
         for(Card card : communityCards){
             allCards.add(card);
         }
-        System.out.println(allCards);
         String suitString = "", rankingString = "";
+        int pairCount = 0;
+        ArrayList<Integer> rankFrequency = findRankingFrequency();
+        ArrayList<Integer> suitFreqency = findSuitFrequency();
         for(int i = 0; i < 4; i ++){
-            suitString += findSuitFrequency().get(i);
+            suitString += suitFreqency.get(i);
         }
         for(int i = 0; i < 13; i ++){
-            rankingString += findRankingFrequency().get(i);
+            rankingString += rankFrequency.get(i);
+            if(rankFrequency.get(i) == 2){
+                pairCount ++;
+            }
         }
         if(rankingString.substring(8).equals("11111") && suitString.contains("5")){
             return "Royal Flush";
@@ -56,11 +61,13 @@ public class Player{
         else if(rankingString.contains("3")){
             return "Three of a Kind";
         }
-        //Two Pair
-        else if(rankingString.contains("2")){
+        else if(pairCount == 2){
+            return "Two Pair";
+        }
+        else if(pairCount == 1){
             return "A Pair";
         }
-        else if(rankingString.substring(13).equals("A")){
+        else if(rankingString.substring(12).equals("1")){
             return "High Card";
         }
         else{
@@ -81,72 +88,29 @@ public class Player{
     } 
 
     public ArrayList<Integer> findRankingFrequency(){
-        int two = 0, three = 0, four = 0, five = 0, six = 0, seven = 0, eight = 0, nine = 0, ten = 0, j = 0, q = 0, k = 0, a = 0;
-        for(int i = 0; i < allCards.size(); i ++){
-            String currentSuit = allCards.get(i).getRank();
-            if(currentSuit.equals("2")){
-                two ++;
-            }
-            else if(currentSuit.equals("3")){
-                three ++;
-            }
-            else if(currentSuit.equals("4")){
-                four ++;
-            }
-            else if(currentSuit.equals("5")){
-                five ++;
-            }
-            else if(currentSuit.equals("6")){
-                six ++;
-            }            
-            else if(currentSuit.equals("7")){
-                seven ++;
-            }
-            else if(currentSuit.equals("8")){
-                eight ++;
-            }
-            else if(currentSuit.equals("9")){
-                nine ++;
-            }
-            else if(currentSuit.equals("10")){
-                ten ++;
-            }
-            else if(currentSuit.equals("J")){
-                j ++;
-            }
-            else if(currentSuit.equals("Q")){
-                q ++;
-            }
-            else if(currentSuit.equals("K")){
-                k ++;
-            }
-            else{
-                a ++;
-            }
+        int[] holderArray = new int[13];
+        for(Card card : allCards){
+            int cardRanking = Utility.getRankValue(card.getRank()) - 2;
+            holderArray[cardRanking] ++;
+        }   
+        ArrayList<Integer> rankingFrequency = new ArrayList<>();
+        for(int num : holderArray){
+            rankingFrequency.add(num);
         }
-        ArrayList<Integer> rankingFrequency = new ArrayList<>(Arrays.asList(two, three, four, five, six, seven, eight, nine, ten, j, q, k, a));
-        return rankingFrequency; 
+        return rankingFrequency;
     }
 
     public ArrayList<Integer> findSuitFrequency(){
-        int club = 0, heart = 0, diamond = 0, spade = 0;
-        for(int i = 0; i < allCards.size(); i ++){
-            String currentSuit = allCards.get(i).getSuit();
-            if(currentSuit.equals("♠")){
-                club ++;
-            }
-            else if(currentSuit.equals("♥")){
-                heart ++;
-            }
-            else if(currentSuit.equals("♣")){
-                diamond ++;
-            }
-            else{
-                spade ++;
-            }   
+        int[] holderArray = new int[4];
+        for(Card card : allCards){
+            int cardSuit = Utility.getSuitValue(card.getSuit());
+            holderArray[cardSuit] ++;
+        } 
+        ArrayList<Integer> suitFrequency = new ArrayList<>();
+        for(int num : holderArray){
+            suitFrequency.add(num);
         }
-        ArrayList<Integer> suitFrequency = new ArrayList<>(Arrays.asList(club, heart, diamond, spade));
-        return suitFrequency; 
+        return suitFrequency;
     }
    
     @Override
