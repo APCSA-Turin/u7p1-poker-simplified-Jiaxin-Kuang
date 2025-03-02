@@ -1,6 +1,5 @@
 package com.example.project;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Player{
     private ArrayList<Card> hand;
@@ -27,7 +26,7 @@ public class Player{
         for(Card card : communityCards){
             allCards.add(card);
         }
-        String suitString = "", rankingString = "";
+        String suitString = "", rankingString = "", rankingString2 = "";
         int pairCount = 0;
         ArrayList<Integer> rankFrequency = findRankingFrequency();
         ArrayList<Integer> suitFreqency = findSuitFrequency();
@@ -40,10 +39,11 @@ public class Player{
                 pairCount ++;
             }
         }
+        rankingString2 = rankingString.substring(4) + rankingString.substring(0, 4); 
         if(rankingString.substring(8).equals("11111") && suitString.contains("5")){
             return "Royal Flush";
         }
-        else if(rankingString.contains("11111") && suitString.contains("5")){
+        else if((rankingString.contains("11111") || rankingString2.contains("11111")) && suitString.contains("5")){
             return "Straight Flush";
         }
         else if(rankingString.contains("4")){
@@ -55,7 +55,7 @@ public class Player{
         else if(suitString.contains("5")){
             return "Flush";
         }
-        else if(rankingString.contains("11111")){
+        else if(rankingString.contains("11111") || rankingString2.contains("11111")){
             return "Straight";
         }
         else if(rankingString.contains("3")){
@@ -67,12 +67,32 @@ public class Player{
         else if(pairCount == 1){
             return "A Pair";
         }
-        else if(rankingString.substring(12).equals("1")){
+        else if(hand.toString().contains("A")){
             return "High Card";
         }
         else{
             return "Nothing";
         }
+    }
+
+    public int highestOccurence(int cardAmount){
+        ArrayList<Integer> rankFrequency = findRankingFrequency();
+        for(int i = 12; i >= 0; i --){
+            if(rankFrequency.get(i) == cardAmount){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public int highestOccurenceHand(int cardAmount){
+        ArrayList<Integer> rankFrequencyHand = findRankingFrequencyHand();
+        for(int i = 12; i >= 0; i --){
+            if(rankFrequencyHand.get(i) == cardAmount){
+                return i;
+            }
+        }
+        return -1;
     }
 
     public void sortAllCards(){
@@ -86,6 +106,19 @@ public class Player{
             hand.set(j + 1, hand.get(i));
         }
     } 
+
+    public ArrayList<Integer> findRankingFrequencyHand(){
+        int[] holderArray = new int[13];
+        for(Card card : hand){
+            int cardRanking = Utility.getRankValue(card.getRank()) - 2;
+            holderArray[cardRanking] ++;
+        }   
+        ArrayList<Integer> rankingFrequencyHand = new ArrayList<>();
+        for(int num : holderArray){
+            rankingFrequencyHand.add(num);
+        }
+        return rankingFrequencyHand;
+    }
 
     public ArrayList<Integer> findRankingFrequency(){
         int[] holderArray = new int[13];
