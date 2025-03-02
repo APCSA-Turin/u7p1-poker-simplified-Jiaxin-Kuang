@@ -1,7 +1,6 @@
 package com.example.project;
 import java.util.ArrayList;
 
-
 public class Game{
     private static String compareRatings(Player p1, Player p2, int occurence, String type){
         int p1Rating = 0, p2Rating = 0;
@@ -52,5 +51,4 @@ public class Game{
 
     public static void play(){ //simulate card playing
     }  
-
 }
