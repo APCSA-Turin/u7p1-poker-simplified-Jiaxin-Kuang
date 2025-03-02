@@ -3,6 +3,25 @@ import java.util.ArrayList;
 
 
 public class Game{
+    private static String compareRatings(Player p1, Player p2, int occurence, String type){
+        int p1Rating = 0, p2Rating = 0;
+        if(type.equals("allCards")){
+            p1Rating = p1.highestOccurence(occurence);
+            p2Rating = p2.highestOccurence(occurence);
+        }
+        else{
+            p1Rating = p1.highestOccurenceHand(occurence);
+            p2Rating = p2.highestOccurenceHand(occurence);
+        }
+        if(p1Rating > p2Rating){
+            return "Player 1 wins!";
+        }
+        else if(p1Rating < p2Rating){
+            return "Player 2 wins!";
+        }
+        return "Tie!";
+    }
+    
     public static String determineWinner(Player p1, Player p2, String p1Hand, String p2Hand, ArrayList<Card> communityCards){
         int p1HandValue = Utility.getHandRanking(p1Hand);
         int p2HandValue = Utility.getHandRanking(p2Hand);
@@ -13,41 +32,21 @@ public class Game{
             return "Player 2 wins!";
         }
         else{
-            int p1Rating = 0, p2Rating = 0;
+            String result = "";
             if(p1HandValue == 8 || p1HandValue == 5){
-                p1Rating = p1.highestOccurence(3);
-                p2Rating = p2.highestOccurence(3);
-                System.out.println(p1Rating + " " + p2Rating);
-                if(p1Rating > p2Rating){
-                    return "Player 1 wins!";
+                result = compareRatings(p1, p2, 3, "allCards");
+                if(!result.equals("Tie!")){
+                    return result;
                 }
-                else if(p1Rating < p2Rating){
-                    return "Player 2 wins!";
-                }
-            }
+            } 
             if(p1HandValue == 8 || p1HandValue == 4 || p1HandValue == 3){
-                p1Rating = p1.highestOccurence(2);
-                p2Rating = p2.highestOccurence(2);
-                System.out.println(p1Rating + " " + p2Rating);
-                if(p1Rating > p2Rating){
-                    return "Player 1 wins!";
+                result = compareRatings(p1, p2, 2, "allCards");
+                if(!result.equals("Tie!")){
+                return result;
                 }
-                else if(p1Rating < p2Rating){
-                    return "Player 2 wins!";
-                }
-            }
-            p1Rating = p1.highestOccurenceHand(1);
-            p2Rating = p2.highestOccurenceHand(1);
-            System.out.println(p1Rating + " " + p2Rating);
-            if(p1Rating > p2Rating){
-                return "Player 1 wins!";
-            }
-            else if(p1Rating < p2Rating){
-                return "Player 2 wins!";
-            }
-            else{
-                return "Tie!";
-            }
+            } 
+            result = compareRatings(p1, p2, 1, "handOnly");
+            return result;
         }
     }
 
