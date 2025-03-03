@@ -7,18 +7,25 @@ public class Player{
     String[] suits  = Utility.getSuits();
     String[] ranks = Utility.getRanks();
     
+    //Sets player with an empty hand and no community cards
     public Player(){
         hand = new ArrayList<>();
         allCards = new ArrayList<>();
     }
 
+    //Returns hand and community cards
     public ArrayList<Card> getHand(){return hand;}
     public ArrayList<Card> getAllCards(){return allCards;}
 
+    //Adds a card to hand 
     public void addCard(Card c){
         hand.add(c);
     }
 
+    /*allCards will add cards from hand and community cards from parameter
+    Gets array lists containing rank frequency and suit frequency 
+    Turns array lists into strings and uses array lists to count how many pairs there are
+    Checks strings and pair count to see which type of hand a player has*/
     public String playHand(ArrayList<Card> communityCards){ 
         allCards = new ArrayList<>();
         allCards.add(hand.get(0));
@@ -75,6 +82,7 @@ public class Player{
         }
     }
 
+    //Input a number and get the highest rank that has said number of cards (All cards)
     public int highestOccurence(int cardAmount){
         ArrayList<Integer> rankFrequency = findRankingFrequency();
         for(int i = 12; i >= 0; i --){
@@ -85,6 +93,7 @@ public class Player{
         return -1;
     }
 
+    //Input a number and get the highest rank that has said number of cards (Hand cards only)
     public int highestOccurenceHand(int cardAmount){
         ArrayList<Integer> rankFrequencyHand = findRankingFrequencyHand();
         for(int i = 12; i >= 0; i --){
@@ -95,6 +104,7 @@ public class Player{
         return -1;
     }
 
+    //Sorts all cards from highest to lowest
     public void sortAllCards(){
         for(int i = 1; i < hand.size(); i ++){
             String currentCard = hand.get(i).getRank();
@@ -107,6 +117,9 @@ public class Player{
         }
     } 
 
+    /*Creates an empty array called holderArray with 13 0's
+    Loops through each card in hand and increases the index correlating to the card's ranking by one
+    Turns array into an arraylist*/
     public ArrayList<Integer> findRankingFrequencyHand(){
         int[] holderArray = new int[13];
         for(Card card : hand){
@@ -120,6 +133,9 @@ public class Player{
         return rankingFrequencyHand;
     }
 
+    /*Creates an empty array called holderArray with 13 0's
+    Loops through each card in allCards and increases the index correlating to the card's ranking by one
+    Turns array into an arraylist*/
     public ArrayList<Integer> findRankingFrequency(){
         int[] holderArray = new int[13];
         for(Card card : allCards){
@@ -133,6 +149,9 @@ public class Player{
         return rankingFrequency;
     }
 
+    /*Creates an empty array called holderArray with 4 0's
+    Loops through each card in allCards and increases the index correlating to the card's suit by one
+    Turns array into an arraylist*/
     public ArrayList<Integer> findSuitFrequency(){
         int[] holderArray = new int[4];
         for(Card card : allCards){
