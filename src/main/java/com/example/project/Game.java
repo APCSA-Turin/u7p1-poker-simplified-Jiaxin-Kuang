@@ -44,8 +44,8 @@ public class Game{
                 return result;
                 } //If tie, method continues to the if statement
             } 
-            result = compareRatings(p1, p2, 1, "handOnly"); //Checks players' cards 
-            return result;
+            result = compareRatings(p1, p2, 1, "handOnly"); //Checks players' cards to see which has the higher card in their hand to determine winner 
+            return result; //If no one has a higher card, game ends in tie
         }
     }
 
